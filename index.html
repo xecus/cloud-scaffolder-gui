@@ -3,9 +3,20 @@
   <head>
     <meta charset="utf-8">
     <title>cloud-scaffolder-gui</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <ul class="nav nav-tabs">
+        <li role="presentation"><router-link to="/page1">Page1</router-link></li>
+      </ul>
+      <div class="container" style="margin-top: 20px;">
+        <router-view></router-view>
+      </div>
+    </div>
     <!-- built files will be auto injected -->
   </body>
 </html>

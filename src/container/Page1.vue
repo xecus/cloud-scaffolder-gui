@@ -1,22 +1,21 @@
 <template>
   <div>
-    {{ hoge }}
+    <alert type="success">
+        ...
+    </alert>
   </div>
 </template>
 
 <script>
-import Store from './vuex/store'
-import { TEST_ACTION } from './vuex/action-types'
+import Store from '../vuex/store'
+import { TEST_ACTION } from '../vuex/action-types'
+import { alert } from 'vue-strap'
 
 export default {
   store: Store,
-  name: 'app',
-  data () {
-    return {
-      hoge: 'hello'
-    }
-  },
+  name: 'page1',
   components: {
+    alert
   },
   created () {
     console.log('Ready!!')
