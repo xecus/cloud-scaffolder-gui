@@ -5,17 +5,24 @@
 </template>
 
 <script>
-// import Hello from './components/Hello'
+import Store from './vuex/store'
+import { TEST_ACTION } from './vuex/action-types'
 
 export default {
+  store: Store,
   name: 'app',
   data () {
     return {
-      hoge: 'Hello'
+      hoge: 'hello'
     }
   },
   components: {
-    // Hello
+  },
+  created () {
+    console.log('Ready!!')
+    this.$store.dispatch(TEST_ACTION, 100).then((response) => {
+      console.log('Test...[' + response + ']')
+    })
   }
 }
 </script>
