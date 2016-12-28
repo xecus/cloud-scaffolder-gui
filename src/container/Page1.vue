@@ -17,6 +17,7 @@ export default {
     alert
   },
   created () {
+    console.log('process.env.DB_HOST=' + process.env.DB_HOST)
     console.log('Ready!!')
     Axios.get('http://tgr.tokyo')
     .then(function (response) {
