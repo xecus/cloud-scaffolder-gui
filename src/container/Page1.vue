@@ -7,18 +7,24 @@
 </template>
 
 <script>
-import Store from '../vuex/store'
+import Axios from 'axios'
 import { TEST_ACTION } from '../vuex/action-types'
 import { alert } from 'vue-strap'
 
 export default {
-  store: Store,
   name: 'page1',
   components: {
     alert
   },
   created () {
     console.log('Ready!!')
+    Axios.get('http://tgr.tokyo')
+    .then(function (response) {
+      console.log(response)
+    })
+    .catch(function (error) {
+      console.log(error)
+    })
     this.$store.dispatch(TEST_ACTION, 100).then((response) => {
       console.log('Test...[' + response + ']')
     })

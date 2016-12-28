@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Page1 from './container/Page1'
+import store from './vuex/store'
 
 Vue.use(VueRouter)
 
@@ -13,5 +14,6 @@ var router = new VueRouter({
 })
 
 new Vue({
+  store,
   router
 }).$mount('#app')
