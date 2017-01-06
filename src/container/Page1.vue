@@ -1,20 +1,32 @@
 <template>
   <div>
-    <alert type="success">
-        ...
-    </alert>
+
+    <md-avatar class="md-avatar-icon">
+      <md-icon>home</md-icon>
+    </md-avatar>
+
+    <md-avatar class="md-avatar-icon md-primary">
+      <md-icon>folder</md-icon>
+    </md-avatar>
+
+     <md-avatar class="md-avatar-icon md-accent">
+      <md-icon>favorite</md-icon>
+    </md-avatar>
+
+    <md-avatar class="md-avatar-icon md-warn">
+      <md-icon>notes</md-icon>
+    </md-avatar>
+
   </div>
 </template>
 
 <script>
 import Axios from 'axios'
 import { TEST_ACTION } from '../vuex/action-types'
-import { alert } from 'vue-strap'
 
 export default {
   name: 'page1',
   components: {
-    alert
   },
   created () {
     console.log('process.env.DB_HOST=' + process.env.DB_HOST)

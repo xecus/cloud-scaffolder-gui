@@ -4,8 +4,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Page1 from './container/Page1'
 import store from './vuex/store'
+import VueMaterial from 'vue-material'
 
 Vue.use(VueRouter)
+Vue.use(VueMaterial)
 
 var router = new VueRouter({
   routes: [
@@ -15,5 +17,22 @@ var router = new VueRouter({
 
 new Vue({
   store,
-  router
+  router,
+  methods: {
+    toggleLeftSidenav () {
+      this.$refs.leftSidenav.toggle()
+    },
+    toggleRightSidenav () {
+      this.$refs.rightSidenav.toggle()
+    },
+    closeRightSidenav () {
+      this.$refs.rightSidenav.close()
+    },
+    open (ref) {
+      console.log('Opened: ' + ref)
+    },
+    close (ref) {
+      console.log('Closed: ' + ref)
+    }
+  }
 }).$mount('#app')
