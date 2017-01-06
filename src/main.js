@@ -2,7 +2,9 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
 import Page1 from './container/Page1'
+import Page2 from './container/Page2'
 import store from './vuex/store'
 import VueMaterial from 'vue-material'
 
@@ -11,7 +13,8 @@ Vue.use(VueMaterial)
 
 var router = new VueRouter({
   routes: [
-    { path: '/page1', component: Page1 }
+    { path: '/page1', component: Page1 },
+    { path: '/page2', component: Page2 }
   ]
 })
 
