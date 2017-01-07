@@ -1,13 +1,58 @@
 <template>
   <div>
+
     <example-box card-title="Default">
       <div slot="demo">
-        AAA
+
+      <div class="field-group">
+
+      <div>
+        <md-switch v-model="checked0" id="my-test0" name="my-test0"></md-switch>
+      </div>
+
+      <div>
+        <md-switch v-model="checked1" id="my-test1" name="my-test1" class="md-primary">Primary Color</md-switch>
+      </div>
+
+      <div>
+        <md-switch v-model="checked2" id="my-test2" name="my-test2" class="md-warn">Warn Color</md-switch>
+      </div>
+
+      <div>
+        <md-switch v-model="checked3" id="my-test3" name="my-test3" disabled>Disabled</md-switch>
+      </div>
+
+<md-checkbox id="my-test4" name="my-test4" v-model="checkbox">Regular Checkbox</md-checkbox>
+<md-checkbox id="my-test5" name="my-test5" v-model="checkbox" class="md-primary">Primary Color</md-checkbox>
+<md-checkbox id="my-test6" name="my-test6" v-model="checkbox" class="md-warn">Warn Color</md-checkbox>
+<md-checkbox id="my-test7" name="my-test7" v-model="checkbox" disabled>Disabled</md-checkbox>
+
+        <md-input-container>
+          <label for="movie">Movie</label>
+          <md-select name="movie" id="movie" v-model="movie">
+            <md-option value="fight_club">Fight Club</md-option>
+            <md-option value="godfather">Godfather</md-option>
+            <md-option value="godfather_ii">Godfather II</md-option>
+            <md-option value="godfather_iii">Godfather III</md-option>
+            <md-option value="godfellas">Godfellas</md-option>
+            <md-option value="pulp_fiction">Pulp Fiction</md-option>
+            <md-option value="scarface">Scarface</md-option>
+          </md-select>
+        </md-input-container>
+        <form novalidate @submit.stop.prevent="submit">
+          <md-input-container class="md-input-invalid">
+            <label>Initial value</label>
+            <md-input v-model="initialValue" required></md-input>
+            <span class="md-error">Validation message</span>
+         </md-input-container>
+       </form>
+      </div>
+
       </div>
       <div slot="code">
-        BBBB
       </div>
     </example-box>
+
   </div>
 </template>
 
@@ -15,6 +60,17 @@
 import ExampleBox from '../components/ExampleBox'
 export default {
   name: 'page2',
+  data () {
+    return {
+      movie: 'godfellas',
+      checked0: false,
+      checked1: false,
+      checked2: true,
+      checked3: false,
+      checkbox: false,
+      initialValue: 'Helllllllo'
+    }
+  },
   components: {
     ExampleBox
   }
