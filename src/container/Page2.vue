@@ -1,8 +1,19 @@
 <template>
   <div>
 
+    <md-dialog md-open-from="#custom" md-close-to="#custom" ref="dialog1">
+      <md-dialog-title>Lorem ipsum dolor sit amet</md-dialog-title>
+      <md-dialog-content>Nemo, nobis necessitatibus ut illo, ducimus ex.</md-dialog-content>
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="closeDialog('dialog1')">Cancel</md-button>
+        <md-button class="md-primary" @click="closeDialog('dialog1')">Ok</md-button>
+      </md-dialog-actions>
+    </md-dialog>
+
     <example-box card-title="Default">
       <div slot="demo">
+
+      <md-button class="md-primary md-raised" id="custom" @click="openDialog('dialog1')">Custom</md-button>
 
       <div class="field-group">
 
@@ -22,10 +33,10 @@
         <md-switch v-model="checked3" id="my-test3" name="my-test3" disabled>Disabled</md-switch>
       </div>
 
-<md-checkbox id="my-test4" name="my-test4" v-model="checkbox">Regular Checkbox</md-checkbox>
-<md-checkbox id="my-test5" name="my-test5" v-model="checkbox" class="md-primary">Primary Color</md-checkbox>
-<md-checkbox id="my-test6" name="my-test6" v-model="checkbox" class="md-warn">Warn Color</md-checkbox>
-<md-checkbox id="my-test7" name="my-test7" v-model="checkbox" disabled>Disabled</md-checkbox>
+        <md-checkbox id="my-test4" name="my-test4" v-model="checkbox">Regular Checkbox</md-checkbox>
+        <md-checkbox id="my-test5" name="my-test5" v-model="checkbox" class="md-primary">Primary Color</md-checkbox>
+        <md-checkbox id="my-test6" name="my-test6" v-model="checkbox" class="md-warn">Warn Color</md-checkbox>
+        <md-checkbox id="my-test7" name="my-test7" v-model="checkbox" disabled>Disabled</md-checkbox>
 
         <md-input-container>
           <label for="movie">Movie</label>
@@ -73,6 +84,20 @@ export default {
   },
   components: {
     ExampleBox
+  },
+  methods: {
+    openDialog (ref) {
+      this.$refs[ref].open()
+    },
+    closeDialog (ref) {
+      this.$refs[ref].close()
+    },
+    onOpen () {
+      console.log('Opened')
+    },
+    onClose (type) {
+      console.log('Closed', type)
+    }
   }
 }
 </script>
