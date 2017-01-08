@@ -12,7 +12,7 @@
 <script>
 import Vue from 'vue'
 import VueSocketio from 'vue-socket.io'
-Vue.use(VueSocketio, 'http://25.37.37.128:38000')
+Vue.use(VueSocketio, 'http://25.37.37.128:37000')
 export default {
   name: 'page3',
 

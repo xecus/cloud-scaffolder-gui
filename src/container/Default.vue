@@ -35,6 +35,9 @@ import Vue from 'vue'
 import Axios from 'axios'
 import Toastr from 'vue-toastr'
 import { waitMillisecondsAsync } from '../util'
+import JwtDecode from 'jwt-decode'
+import Moment from 'moment'
+
 Vue.component('vue-toastr', Toastr)
 export default {
   name: 'default',
@@ -46,12 +49,18 @@ export default {
   },
   methods: {
     aaa () {
-      Axios.post('http://25.37.37.128:37000/api/login', {
+      Axios.post('http://25.37.37.128:38000/api/v1/auth', {
         username: this.username,
         password: this.password
       })
       .then((response) => {
         console.log(response.data.token)
+
+        let decoded = JwtDecode(response.data.token)
+        console.log(decoded.id)
+        console.log(Moment.unix(decoded.exp))
+        console.log(Moment.unix(decoded.orig_iat))
+
         this.$refs.toastr.s('Success')
         waitMillisecondsAsync(1000).then(() => {
           this.$router.push('page1')
