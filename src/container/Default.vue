@@ -1,6 +1,8 @@
 <template>
   <div>
 
+  <vue-toastr ref="toastr"></vue-toastr>
+
   <h1 class="login-title">Login</h1>
 
   <div class="login-form">
@@ -29,7 +31,10 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Axios from 'axios'
+import Toastr from 'vue-toastr'
+Vue.component('vue-toastr', Toastr)
 export default {
   name: 'default',
   data: () => {
@@ -44,11 +49,13 @@ export default {
         username: 'admin',
         password: 'admin'
       })
-      .then(function (response) {
+      .then((response) => {
         console.log(response.data.token)
+        this.$refs.toastr.s('Success')
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error)
+        this.$refs.toastr.e('Failed')
       })
     }
   }
