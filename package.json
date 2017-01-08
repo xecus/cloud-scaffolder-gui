@@ -17,6 +17,7 @@
     "vue": "^2.1.0",
     "vue-material": "^0.5.2",
     "vue-router": "^2.1.1",
+    "vue-socket.io": "^2.1.0",
     "vuex": "^2.1.1"
   },
   "devDependencies": {
