@@ -14,7 +14,7 @@
   </md-input-container>
   <md-input-container md-has-password>
   <label>Password</label>
-  <md-input type="password"></md-input>
+  <md-input v-model="password" type="password"></md-input>
   </md-input-container>
   </form>
 
@@ -34,24 +34,28 @@
 import Vue from 'vue'
 import Axios from 'axios'
 import Toastr from 'vue-toastr'
+import { waitMillisecondsAsync } from '../util'
 Vue.component('vue-toastr', Toastr)
 export default {
   name: 'default',
   data: () => {
     return {
       username: 'admin',
-      password: 'password'
+      password: 'admin'
     }
   },
   methods: {
     aaa () {
       Axios.post('http://25.37.37.128:37000/api/login', {
-        username: 'admin',
-        password: 'admin'
+        username: this.username,
+        password: this.password
       })
       .then((response) => {
         console.log(response.data.token)
         this.$refs.toastr.s('Success')
+        waitMillisecondsAsync(1000).then(() => {
+          this.$router.push('page1')
+        })
       })
       .catch((error) => {
         console.log(error)
