@@ -1,10 +1,28 @@
 <template>
   <div>
-    <md-button class="md-primary" @click="aaa">Primary</md-button>
+    <md-button class="md-primary" @click="aaa">Send</md-button>
+    <md-button class="md-primary" @click="clear">Clear</md-button>
 
     <br>
 
-    {{ log }}
+    <md-table>
+      <md-table-header>
+        <md-table-row>
+          <md-table-head>#</md-table-head>
+          <md-table-head>Message</md-table-head>
+        </md-table-row>
+      </md-table-header>
+
+      <md-table-body>
+        <md-table-row v-for="recvLine in recvLines">
+          <md-table-cell>#</md-table-cell>
+          <md-table-cell>
+            {{ recvLine }}
+          </md-table-cell>
+        </md-table-row>
+      </md-table-body>
+    </md-table>
+
 
   </div>
 </template>
@@ -18,7 +36,8 @@ export default {
 
   data: () => {
     return {
-      log: 'Here'
+      log: 'Here',
+      recvLines: []
     }
   },
 
@@ -30,8 +49,7 @@ export default {
       console.log('socket disconnected')
     },
     hoge (val) {
-      this.log += val + '<br>'
-      console.log('[' + val + ']')
+      this.recvLines.push(val)
     }
   },
   components: {
@@ -41,9 +59,12 @@ export default {
   methods: {
     aaa () {
       let val = {
-        aaa: 'Hello'
+        cmd: 'Start'
       }
       this.$socket.emit('msg', JSON.stringify(val))
+    },
+    clear () {
+      this.recvLines = []
     }
   }
 }
