@@ -8,16 +8,18 @@
     <md-table>
       <md-table-header>
         <md-table-row>
-          <md-table-head>#</md-table-head>
+          <md-table-head>Timestamp</md-table-head>
           <md-table-head>Message</md-table-head>
         </md-table-row>
       </md-table-header>
 
       <md-table-body>
         <md-table-row v-for="recvLine in recvLines">
-          <md-table-cell>#</md-table-cell>
           <md-table-cell>
-            {{ recvLine }}
+            {{ recvLine.timestamp }}
+          </md-table-cell>
+          <md-table-cell>
+            {{ recvLine.message }}
           </md-table-cell>
         </md-table-row>
       </md-table-body>
@@ -49,6 +51,7 @@ export default {
       console.log('socket disconnected')
     },
     hoge (val) {
+      val = JSON.parse(val)
       this.recvLines.push(val)
     }
   },
