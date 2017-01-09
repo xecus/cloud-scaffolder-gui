@@ -12,11 +12,11 @@
             <md-icon>more_vert</md-icon>
           </md-button>
           <md-menu-content>
-            <md-menu-item disabled>
+            <md-menu-item @click="enableUser(user.ID)">
               <span>Enable</span>
               <md-icon>mood</md-icon>
             </md-menu-item>
-            <md-menu-item disabled>
+            <md-menu-item @click="disableUser(user.ID)">
               <span>Disable</span>
               <md-icon>mood_bad</md-icon>
             </md-menu-item>
@@ -81,6 +81,36 @@ export default {
       })
       .catch((error) => {
         console.log(error)
+      })
+    },
+    loadUserById (userId) {
+      return Axios.get(SSO_HOST + '/api/v1/users/' + userId).then((response) => {
+        return response.data
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    updateUser (userId, payload) {
+      return Axios.put(SSO_HOST + '/api/v1/users/' + userId, payload).then((response) => {
+        return response.data
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    enableUser (userId) {
+      this.loadUserById(userId).then((data) => {
+        data.enabled = true
+        this.updateUser(userId, data).then((response) => {
+          this.loadUsers()
+        })
+      })
+    },
+    disableUser (userId) {
+      this.loadUserById(userId).then((data) => {
+        data.enabled = false
+        this.updateUser(userId, data).then((response) => {
+          this.loadUsers()
+        })
       })
     },
     deleteUser (userId) {
