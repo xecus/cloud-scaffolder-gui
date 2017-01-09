@@ -9,6 +9,7 @@ import Default from './container/Default'
 import Page1 from './container/Page1'
 import Page2 from './container/Page2'
 import Page3 from './container/Page3'
+import Page4 from './container/Page4'
 
 Vue.use(VueRouter)
 Vue.use(VueMaterial)
@@ -18,7 +19,8 @@ const router = new VueRouter({
     { path: '/', component: Default },
     { path: '/page1', component: Page1 },
     { path: '/page2', component: Page2 },
-    { path: '/page3', component: Page3 }
+    { path: '/page3', component: Page3 },
+    { path: '/page4', component: Page4 }
   ]
 })
 
