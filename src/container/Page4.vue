@@ -12,19 +12,19 @@
             <md-icon>more_vert</md-icon>
           </md-button>
           <md-menu-content>
-            <md-menu-item>
+            <md-menu-item disabled>
               <span>Enable</span>
               <md-icon>mood</md-icon>
             </md-menu-item>
-            <md-menu-item>
+            <md-menu-item disabled>
               <span>Disable</span>
               <md-icon>mood_bad</md-icon>
             </md-menu-item>
-            <md-menu-item>
+            <md-menu-item disabled>
               <span>Edit</span>
               <md-icon>edit</md-icon>
             </md-menu-item>
-            <md-menu-item>
+            <md-menu-item @click="deleteUser(user.ID)">
               <span>Delete</span>
               <md-icon>delete</md-icon>
             </md-menu-item>
@@ -57,6 +57,8 @@
 
 <script>
 import Axios from 'axios'
+import _ from 'lodash'
+const SSO_HOST = 'http://25.37.37.128:38000'
 export default {
   name: 'page4',
   data: () => {
@@ -71,10 +73,23 @@ export default {
   },
   methods: {
     loadUsers () {
-      Axios.get('http://25.37.37.128:38000/api/v1/users')
+      Axios.get(SSO_HOST + '/api/v1/users')
       .then((response) => {
-        this.users = response.data
-        console.log(this.users)
+        this.users = _.map(response.data, (data) => {
+          return _.omit(data, ['DeletedAt', 'password'])
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    },
+    deleteUser (userId) {
+      Axios.delete(SSO_HOST + '/api/v1/users/' + userId)
+      .then((response) => {
+        this.users = _.map(response.data, (data) => {
+          return _.omit(data, ['DeletedAt', 'password'])
+        })
+        this.loadUsers()
       })
       .catch((error) => {
         console.log(error)
