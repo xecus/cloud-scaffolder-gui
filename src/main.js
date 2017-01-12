@@ -10,6 +10,7 @@ import Page1 from './container/Page1'
 import Page2 from './container/Page2'
 import Page3 from './container/Page3'
 import Page4 from './container/Page4'
+import NotFound from './container/NotFound'
 
 Vue.use(VueRouter)
 Vue.use(VueMaterial)
@@ -20,7 +21,9 @@ const router = new VueRouter({
     { path: '/page1', component: Page1 },
     { path: '/page2', component: Page2 },
     { path: '/page3', component: Page3 },
-    { path: '/page4', component: Page4 }
+    { path: '/page4', component: Page4 },
+    { path: '/404', component: NotFound },
+    { path: '*', redirect: '/404' }
   ]
 })
 
