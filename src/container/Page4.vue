@@ -58,7 +58,6 @@
 <script>
 import Axios from 'axios'
 import _ from 'lodash'
-const SSO_HOST = 'http://25.37.37.128:38000'
 export default {
   name: 'page4',
   data: () => {
@@ -73,7 +72,7 @@ export default {
   },
   methods: {
     loadUsers () {
-      Axios.get(SSO_HOST + '/api/v1/users')
+      Axios.get(process.env.SSO_HOST + '/api/v1/users')
       .then((response) => {
         this.users = _.map(response.data, (data) => {
           return _.omit(data, ['DeletedAt', 'password'])
@@ -84,14 +83,14 @@ export default {
       })
     },
     loadUserById (userId) {
-      return Axios.get(SSO_HOST + '/api/v1/users/' + userId).then((response) => {
+      return Axios.get(process.env.SSO_HOST + '/api/v1/users/' + userId).then((response) => {
         return response.data
       }).catch((error) => {
         console.log(error)
       })
     },
     updateUser (userId, payload) {
-      return Axios.put(SSO_HOST + '/api/v1/users/' + userId, payload).then((response) => {
+      return Axios.put(process.env.SSO_HOST + '/api/v1/users/' + userId, payload).then((response) => {
         return response.data
       }).catch((error) => {
         console.log(error)
@@ -114,7 +113,7 @@ export default {
       })
     },
     deleteUser (userId) {
-      Axios.delete(SSO_HOST + '/api/v1/users/' + userId)
+      Axios.delete(process.env.SSO_HOST + '/api/v1/users/' + userId)
       .then((response) => {
         this.users = _.map(response.data, (data) => {
           return _.omit(data, ['DeletedAt', 'password'])

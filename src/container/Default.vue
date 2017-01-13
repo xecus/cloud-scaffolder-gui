@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     aaa () {
-      Axios.post('http://25.37.37.128:38000/api/v1/auth', {
+      Axios.post(process.env.SSO_HOST + '/api/v1/auth', {
         username: this.username,
         password: this.password
       })
