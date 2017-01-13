@@ -39,8 +39,8 @@ import Toastr from 'vue-toastr'
 import { waitMillisecondsAsync } from '../util'
 import JwtDecode from 'jwt-decode'
 import Moment from 'moment'
-
 Vue.component('vue-toastr', Toastr)
+const routeAfterLoginSuccessflly = 'page1'
 export default {
   name: 'default',
   store: Store,
@@ -48,6 +48,11 @@ export default {
     return {
       username: '',
       password: ''
+    }
+  },
+  created () {
+    if (this.$store.state.user) {
+      this.$router.push(routeAfterLoginSuccessflly)
     }
   },
   methods: {
@@ -67,7 +72,7 @@ export default {
         this.$store.commit(SET_USER, user)
         this.$refs.toastr.s('Success')
         waitMillisecondsAsync(1000).then(() => {
-          this.$router.push('page1')
+          this.$router.push(routeAfterLoginSuccessflly)
         })
       })
       .catch((error) => {
