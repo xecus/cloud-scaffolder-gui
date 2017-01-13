@@ -35,7 +35,19 @@ new Vue({
       return this.$store.state.user
     }
   },
+  watch: {
+    '$route': 'checkLoggingStatus'
+  },
+  created () {
+    this.checkLoggingStatus()
+  },
   methods: {
+    checkLoggingStatus () {
+      let user = this.$store.state.user
+      if (!user) {
+        this.$router.push('/')
+      }
+    },
     toggleLeftSidenav () {
       if (!this.user) {
         return
