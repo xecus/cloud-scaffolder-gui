@@ -10,15 +10,15 @@
   <form novalidate @submit.stop.prevent="submit">
   <md-input-container>
   <label>Username</label>
-  <md-input v-model="username"></md-input>
+  <md-input v-model="username" required></md-input>
   </md-input-container>
   <md-input-container md-has-password>
   <label>Password</label>
-  <md-input v-model="password" type="password"></md-input>
+  <md-input v-model="password" type="password" required></md-input>
   </md-input-container>
   </form>
 
-  <md-button class="md-raised md-primary login-button" @click="aaa">Login</md-button>
+  <md-button class="md-raised md-primary login-button" @click="do_login">Login</md-button>
 
   </div>
 
@@ -32,6 +32,8 @@
 
 <script>
 import Vue from 'vue'
+import Store from './../vuex/store'
+import { SET_USER } from './../vuex/mutation-types'
 import Axios from 'axios'
 import Toastr from 'vue-toastr'
 import { waitMillisecondsAsync } from '../util'
@@ -41,26 +43,28 @@ import Moment from 'moment'
 Vue.component('vue-toastr', Toastr)
 export default {
   name: 'default',
+  store: Store,
   data: () => {
     return {
-      username: 'admin',
-      password: 'admin'
+      username: '',
+      password: ''
     }
   },
   methods: {
-    aaa () {
+    do_login () {
       Axios.post(process.env.SSO_HOST + '/api/v1/auth', {
         username: this.username,
         password: this.password
       })
       .then((response) => {
-        console.log(response.data.token)
-
         let decoded = JwtDecode(response.data.token)
-        console.log(decoded.id)
-        console.log(Moment.unix(decoded.exp))
-        console.log(Moment.unix(decoded.orig_iat))
-
+        let user = {
+          token: response.data.token,
+          id: decoded.id,
+          exp: Moment.unix(decoded.exp),
+          oring_iat: Moment.unix(decoded.orig_iat)
+        }
+        this.$store.commit(SET_USER, user)
         this.$refs.toastr.s('Success')
         waitMillisecondsAsync(1000).then(() => {
           this.$router.push('page1')

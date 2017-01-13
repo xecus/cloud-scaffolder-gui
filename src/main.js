@@ -30,8 +30,16 @@ const router = new VueRouter({
 new Vue({
   store,
   router,
+  computed: {
+    user () {
+      return this.$store.state.user
+    }
+  },
   methods: {
     toggleLeftSidenav () {
+      if (!this.user) {
+        return
+      }
       this.$refs.leftSidenav.toggle()
     },
     open (ref) {
