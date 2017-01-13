@@ -31,9 +31,8 @@ new Vue({
   store,
   router,
   computed: {
-    user () {
-      return this.$store.state.user
-    }
+    user () { return this.$store.state.user },
+    siteTitle () { return process.env.SITE_TITLE }
   },
   watch: {
     '$route': 'checkLoggingStatus'
