@@ -1,6 +1,22 @@
 <template>
   <div>
 
+    <md-dialog-prompt
+      v-model="new_user_string"
+      md-title="User Registration"
+      md-ok-text="OK"
+      md-cancel-text="Cancel"
+      md-input-maxlength="256"
+      md-input-placeholder="ID:Password"
+      @close="onClose"
+      ref="dialog_id">
+    </md-dialog-prompt>
+
+    <md-button class="md-primary md-raised" @click="new_user">
+      <md-icon>add</md-icon>
+      New User
+    </md-button>
+
     <md-card class="user-card" v-for="user in users">
       <md-card-header>
         <md-card-header-text>
@@ -12,11 +28,11 @@
             <md-icon>more_vert</md-icon>
           </md-button>
           <md-menu-content>
-            <md-menu-item @click="enableUser(user.ID)">
+            <md-menu-item @click="enableUser(user, true)">
               <span>Enable</span>
               <md-icon>mood</md-icon>
             </md-menu-item>
-            <md-menu-item @click="disableUser(user.ID)">
+            <md-menu-item @click="enableUser(user, false)">
               <span>Disable</span>
               <md-icon>mood_bad</md-icon>
             </md-menu-item>
@@ -24,7 +40,7 @@
               <span>Edit</span>
               <md-icon>edit</md-icon>
             </md-menu-item>
-            <md-menu-item @click="deleteUser(user.ID)">
+            <md-menu-item @click="deleteUser(user)">
               <span>Delete</span>
               <md-icon>delete</md-icon>
             </md-menu-item>
@@ -57,11 +73,13 @@
 
 <script>
 import Axios from 'axios'
-import _ from 'lodash'
+import Store from './../vuex/store'
 export default {
   name: 'page4',
+  store: Store,
   data: () => {
     return {
+      new_user_string: '',
       users: []
     }
   },
@@ -70,59 +88,84 @@ export default {
   created () {
     this.loadUsers()
   },
+  computed: {
+    jwt () {
+      let user = this.$store.state.user
+      return user && user.token
+    }
+  },
   methods: {
-    loadUsers () {
-      Axios.get(process.env.SSO_HOST + '/api/v1/users')
+    generateAxiosHeader () {
+      return {
+        headers: {
+          'Authorization': 'Bearer ' + this.jwt,
+          'Content-Type': 'application/json'
+        }
+      }
+    },
+    regUser (payload) {
+      Axios.post(process.env.SSO_HOST + '/api/v1/users', payload, this.generateAxiosHeader())
       .then((response) => {
-        this.users = _.map(response.data, (data) => {
-          return _.omit(data, ['DeletedAt', 'password'])
-        })
+        this.loadUsers()
+        console.log('Registerd Successfully')
       })
       .catch((error) => {
         console.log(error)
       })
     },
-    loadUserById (userId) {
-      return Axios.get(process.env.SSO_HOST + '/api/v1/users/' + userId).then((response) => {
-        return response.data
-      }).catch((error) => {
+    loadUsers () {
+      Axios.get(process.env.SSO_HOST + '/api/v1/users', this.generateAxiosHeader())
+      .then((response) => {
+        this.users = response.data
+        console.log('Updated user list')
+      })
+      .catch((error) => {
         console.log(error)
       })
     },
     updateUser (userId, payload) {
-      return Axios.put(process.env.SSO_HOST + '/api/v1/users/' + userId, payload).then((response) => {
+      return Axios.put(process.env.SSO_HOST + '/api/v1/users/' + userId, payload,
+      this.generateAxiosHeader()).then((response) => {
         return response.data
       }).catch((error) => {
         console.log(error)
       })
     },
-    enableUser (userId) {
-      this.loadUserById(userId).then((data) => {
-        data.enabled = true
-        this.updateUser(userId, data).then((response) => {
-          this.loadUsers()
-        })
+    enableUser (user, stat) {
+      user.enabled = stat
+      this.updateUser(user.ID, user).then((response) => {
+        this.loadUsers()
       })
     },
-    disableUser (userId) {
-      this.loadUserById(userId).then((data) => {
-        data.enabled = false
-        this.updateUser(userId, data).then((response) => {
-          this.loadUsers()
-        })
-      })
-    },
-    deleteUser (userId) {
-      Axios.delete(process.env.SSO_HOST + '/api/v1/users/' + userId)
+    deleteUser (user) {
+      Axios.delete(process.env.SSO_HOST + '/api/v1/users/' + user.ID, this.generateAxiosHeader())
       .then((response) => {
-        this.users = _.map(response.data, (data) => {
-          return _.omit(data, ['DeletedAt', 'password'])
-        })
         this.loadUsers()
       })
       .catch((error) => {
         console.log(error)
       })
+    },
+    new_user () {
+      this.openDialog('dialog_id')
+    },
+    openDialog (ref) {
+      this.$refs[ref].open()
+    },
+    closeDialog (ref) {
+      this.$refs[ref].close()
+    },
+    onClose (res) {
+      if (res === 'cancel') {
+        return
+      }
+      let splitedString = this.new_user_string.split(':')
+      let payload = {
+        username: splitedString[0],
+        password: splitedString[1],
+        enabled: true
+      }
+      this.regUser(payload)
     }
   }
 }
