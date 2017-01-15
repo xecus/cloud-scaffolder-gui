@@ -2,7 +2,7 @@
   <div>
 
     <md-dialog-prompt
-      v-model="new_user_string"
+      v-model="newUserString"
       md-title="User Registration"
       md-ok-text="OK"
       md-cancel-text="Cancel"
@@ -12,7 +12,12 @@
       ref="dialog_id">
     </md-dialog-prompt>
 
-    <md-button class="md-primary md-raised" @click="new_user">
+    <md-snackbar md-position="top right" ref="snackbar" md-duration="4000">
+      <span>{{ snackBarMessage }}</span>
+      <md-button class="md-accent" md-theme="light-blue" @click="$refs.snackbar.close()">Close</md-button>
+    </md-snackbar>
+
+    <md-button class="md-primary md-raised" @click="newUser">
       <md-icon>add</md-icon>
       New User
     </md-button>
@@ -79,7 +84,8 @@ export default {
   store: Store,
   data: () => {
     return {
-      new_user_string: '',
+      newUserString: '',
+      snackBarMessage: '',
       users: []
     }
   },
@@ -106,8 +112,8 @@ export default {
     regUser (payload) {
       Axios.post(process.env.SSO_HOST + '/api/v1/users', payload, this.generateAxiosHeader())
       .then((response) => {
+        this.showSnackbar('新規ユーザー(' + payload.username + ')を登録しました')
         this.loadUsers()
-        console.log('Registerd Successfully')
       })
       .catch((error) => {
         console.log(error)
@@ -117,7 +123,6 @@ export default {
       Axios.get(process.env.SSO_HOST + '/api/v1/users', this.generateAxiosHeader())
       .then((response) => {
         this.users = response.data
-        console.log('Updated user list')
       })
       .catch((error) => {
         console.log(error)
@@ -126,6 +131,7 @@ export default {
     updateUser (userId, payload) {
       return Axios.put(process.env.SSO_HOST + '/api/v1/users/' + userId, payload,
       this.generateAxiosHeader()).then((response) => {
+        this.showSnackbar('ユーザー情報を更新しました')
         return response.data
       }).catch((error) => {
         console.log(error)
@@ -140,14 +146,19 @@ export default {
     deleteUser (user) {
       Axios.delete(process.env.SSO_HOST + '/api/v1/users/' + user.ID, this.generateAxiosHeader())
       .then((response) => {
+        this.showSnackbar('ユーザー(' + user.username + ')を削除しました')
         this.loadUsers()
       })
       .catch((error) => {
         console.log(error)
       })
     },
-    new_user () {
+    newUser () {
       this.openDialog('dialog_id')
+    },
+    showSnackbar (msg) {
+      this.snackBarMessage = msg
+      this.$refs.snackbar.open()
     },
     openDialog (ref) {
       this.$refs[ref].open()
@@ -159,7 +170,7 @@ export default {
       if (res === 'cancel') {
         return
       }
-      let splitedString = this.new_user_string.split(':')
+      let splitedString = this.newUserString.split(':')
       let payload = {
         username: splitedString[0],
         password: splitedString[1],
