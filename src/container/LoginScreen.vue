@@ -23,8 +23,8 @@
   </div>
 
   <div class="footer">
-  <a href="#" target="_blank"><img src="/static/logo.png"></a>
-  <p>You Gotta Love <a href="#" target="_blank">Vue.js</a></p>
+  <a href="#" target="_blank"><img src="/static/taguro.jpg"></a>
+  <p>Github <a href="#" target="_blank">https://github.com/xecus/cloud-scaffolder-gui</a></p>
   </div>
 
   </div>

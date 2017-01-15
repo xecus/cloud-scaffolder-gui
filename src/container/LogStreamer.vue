@@ -32,7 +32,7 @@
 <script>
 import Vue from 'vue'
 import VueSocketio from 'vue-socket.io'
-Vue.use(VueSocketio, 'http://25.37.37.128:37000')
+Vue.use(VueSocketio, process.env.WS_HOST)
 export default {
   name: 'page3',
 

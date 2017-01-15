@@ -8,7 +8,7 @@ import VueMaterial from 'vue-material'
 import LoginScreen from './container/LoginScreen'
 import Page1 from './container/Page1'
 import Page2 from './container/Page2'
-import Page3 from './container/Page3'
+import LogStreamer from './container/LogStreamer'
 import SsoManager from './container/SsoManager'
 import NotFound from './container/NotFound'
 
@@ -20,7 +20,7 @@ const router = new VueRouter({
     { path: '/', component: LoginScreen },
     { path: '/page1', component: Page1 },
     { path: '/page2', component: Page2 },
-    { path: '/page3', component: Page3 },
+    { path: '/log-streamer', component: LogStreamer },
     { path: '/sso-manager', component: SsoManager },
     { path: '/404', component: NotFound },
     { path: '*', redirect: '/404' }
