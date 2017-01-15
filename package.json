@@ -18,7 +18,7 @@
     "node-sass": "^4.1.1",
     "sass-loader": "^4.1.1",
     "vue": "^2.1.0",
-    "vue-material": "^0.5.2",
+    "vue-material": "^0.6.3",
     "vue-router": "^2.1.1",
     "vue-socket.io": "^2.1.0",
     "vue-toastr": "^2.0.5",
