@@ -135,6 +135,46 @@ export default {
     doDraw () {
       let mynetwork = document.getElementById('mynetwork')
       this.network = new window.vis.Network(mynetwork, this.networkData, this.networkOptions)
+      this.network.on('click', (params) => {
+        params.event = {}
+        console.log(JSON.stringify(params, null, 4))
+      })
+      /*
+      this.network.on('doubleClick', (params) => {
+      })
+      this.network.on('oncontext', (params) => {
+      })
+      this.network.on('dragStart', (params) => {
+      })
+      this.network.on('dragging', (params) => {
+      })
+      this.network.on('dragEnd', (params) => {
+      })
+      this.network.on('zoom', (params) => {
+      })
+      this.network.on('showPopup', (params) => {
+      })
+      this.network.on('hidePopup', () => {
+      })
+      this.network.on('select', (params) => {
+      })
+      this.network.on('selectNode', (params) => {
+      })
+      this.network.on('selectEdge', (params) => {
+      })
+      this.network.on('deselectNode', (params) => {
+      })
+      this.network.on('deselectEdge', (params) => {
+      })
+      this.network.on('hoverNode', (params) => {
+      })
+      this.network.on('hoverEdge', (params) => {
+      })
+      this.network.on('blurNode', (params) => {
+      })
+      this.network.on('blurEdge', (params) => {
+      })
+      */
     }
   }
 }
