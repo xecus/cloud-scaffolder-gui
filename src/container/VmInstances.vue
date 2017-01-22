@@ -9,15 +9,17 @@
 
     <!-- Resource Table -->
     <hr>
-    <md-button class="md-raised md-primary">Add Vm</md-button>
+    <md-button class="md-raised md-primary" @click="addVm">Add Vm</md-button>
 
     <md-table>
       <md-table-header>
         <md-table-row>
           <md-table-head>ID</md-table-head>
+          <md-table-head>Zone</md-table-head>
           <md-table-head>Hostname</md-table-head>
           <md-table-head>Image</md-table-head>
           <md-table-head>Network</md-table-head>
+          <md-table-head>Status</md-table-head>
           <md-table-head>Detail</md-table-head>
         </md-table-row>
       </md-table-header>
@@ -25,7 +27,11 @@
           <md-table-row v-for="vm in vms">
             <md-table-cell>{{ vm.ID }}</md-table-cell>
             <md-table-cell>
-              <b>{{ vm.hostname }}</b> <br> ({{ vm.uuid }})
+              <div style="color: blue;">Area-1</div>
+            </md-table-cell>
+            <md-table-cell>
+              <b>{{ vm.hostname }}</b>
+              ({{ vm.uuid }})
               <md-tooltip md-direction="right">My tooltip</md-tooltip>
             </md-table-cell>
             <md-table-cell>{{ vm.image.name }} ({{ vm.image.image_name }} {{vm.image.version }})</md-table-cell>
@@ -35,12 +41,16 @@
               </div>
             </md-table-cell>
             <md-table-cell>
+              <div style="color: green;">RUNNING</div>
+            </md-table-cell>
+            <md-table-cell>
 
               <md-menu>
                 <md-button md-menu-trigger class="md-icon-button md-primary">
                   <md-icon>more_vert</md-icon>
                 </md-button>
                 <md-menu-content>
+                  <md-menu-item>Provisioning</md-menu-item>
                   <md-menu-item>Edit</md-menu-item>
                   <md-menu-item>Detail</md-menu-item>
                 </md-menu-content>
@@ -49,7 +59,8 @@
             </md-table-cell>
           </md-table-row>
           <md-table-row style="padding: 0px;margin: 0px;">
-            <md-table-cell colspan=5>
+            <md-table-cell colspan=7>
+              Deploy Status:
               <md-progress :md-progress="progress"></md-progress>
             </md-table-cell>
           </md-table-row>
@@ -130,6 +141,8 @@ export default {
   components: {
   },
   methods: {
+    addVm () {
+    },
     getVms () {
       let opt = {
         headers: {
