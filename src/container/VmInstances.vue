@@ -1,14 +1,11 @@
 <template>
   <div>
-    <!-- <md-button class="md-primary" @click="draw">Draw</md-button> -->
-    <md-button class="md-primary" @click="getVms">GetVms</md-button>
-
 
     <!-- Network Diagram -->
+    <!-- <md-button class="md-primary" @click="draw">Draw</md-button> -->
     <!-- <div id="mynetwork"></div> -->
 
     <!-- Resource Table -->
-    <hr>
     <md-button class="md-raised md-primary" @click="addVm">Add Vm</md-button>
 
     <md-table>
@@ -50,8 +47,8 @@
                   <md-icon>more_vert</md-icon>
                 </md-button>
                 <md-menu-content>
-                  <md-menu-item>Provisioning</md-menu-item>
-                  <md-menu-item>Edit</md-menu-item>
+                  <md-menu-item @click="$router.push('/vm-instances/' + vm.uuid)">Detail</md-menu-item>
+                  <md-menu-item>Detail</md-menu-item>
                   <md-menu-item>Detail</md-menu-item>
                 </md-menu-content>
               </md-menu>

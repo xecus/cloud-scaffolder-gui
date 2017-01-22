@@ -9,6 +9,7 @@ import LoginScreen from './container/LoginScreen'
 import Page1 from './container/Page1'
 import Page2 from './container/Page2'
 import VmInstances from './container/VmInstances'
+import DetailVmInstance from './container/DetailVmInstance'
 import LogStreamer from './container/LogStreamer'
 import SsoManager from './container/SsoManager'
 import NotFound from './container/NotFound'
@@ -22,6 +23,7 @@ const router = new VueRouter({
     { path: '/page1', component: Page1 },
     { path: '/page2', component: Page2 },
     { path: '/vm-instances', component: VmInstances },
+    { path: '/vm-instances/:id', component: DetailVmInstance },
     { path: '/log-streamer', component: LogStreamer },
     { path: '/sso-manager', component: SsoManager },
     { path: '/404', component: NotFound },
