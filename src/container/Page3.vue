@@ -1,20 +1,77 @@
 <template>
   <div>
-    <md-button class="md-primary" @click="draw">Draw</md-button>
+    <!-- <md-button class="md-primary" @click="draw">Draw</md-button> -->
+    <md-button class="md-primary" @click="getVms">GetVms</md-button>
+
+
+    <!-- Network Diagram -->
+    <!-- <div id="mynetwork"></div> -->
+
+    <!-- Resource Table -->
     <hr>
-    <div id="mynetwork"></div>
-    <hr>
+    <md-button class="md-raised md-primary">Add Vm</md-button>
+
+    <md-table>
+      <md-table-header>
+        <md-table-row>
+          <md-table-head>ID</md-table-head>
+          <md-table-head>Hostname</md-table-head>
+          <md-table-head>Image</md-table-head>
+          <md-table-head>Network</md-table-head>
+          <md-table-head>Detail</md-table-head>
+        </md-table-row>
+      </md-table-header>
+      <md-table-body>
+          <md-table-row v-for="vm in vms">
+            <md-table-cell>{{ vm.ID }}</md-table-cell>
+            <md-table-cell>
+              <b>{{ vm.hostname }}</b> <br> ({{ vm.uuid }})
+              <md-tooltip md-direction="right">My tooltip</md-tooltip>
+            </md-table-cell>
+            <md-table-cell>{{ vm.image.name }} ({{ vm.image.image_name }} {{vm.image.version }})</md-table-cell>
+            <md-table-cell>
+              <div v-for="network_interface in vm.network_interfaces" v-if="vm.network_interfaces">
+              {{ network_interface.name }}
+              </div>
+            </md-table-cell>
+            <md-table-cell>
+
+              <md-menu>
+                <md-button md-menu-trigger class="md-icon-button md-primary">
+                  <md-icon>more_vert</md-icon>
+                </md-button>
+                <md-menu-content>
+                  <md-menu-item>Edit</md-menu-item>
+                  <md-menu-item>Detail</md-menu-item>
+                </md-menu-content>
+              </md-menu>
+
+            </md-table-cell>
+          </md-table-row>
+          <md-table-row style="padding: 0px;margin: 0px;">
+            <md-table-cell colspan=5>
+              <md-progress :md-progress="progress"></md-progress>
+            </md-table-cell>
+          </md-table-row>
+      </md-table-body>
+    </md-table>
+
   </div>
 </template>
 
 <script>
+import Axios from 'axios'
+import Store from '../vuex/store'
 export default {
   name: 'page3',
+  store: Store,
   data () {
     return {
       network: null,
       nodes: [],
-      edges: []
+      edges: [],
+      vms: [],
+      progress: 80
     }
   },
   computed: {
@@ -66,12 +123,28 @@ export default {
     }
   },
   created () {
+    this.getVms()
   },
   ready () {
   },
   components: {
   },
   methods: {
+    getVms () {
+      let opt = {
+        headers: {
+          'Authorization': this.$store.state.user.token
+        }
+      }
+      Axios.get('http://104.154.29.8:4000/vms', opt)
+      .then((response) => {
+        this.vms = response.data
+        console.log(this.vms)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    },
     draw () {
       this.prepareData()
       this.doDraw()
