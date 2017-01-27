@@ -57,8 +57,10 @@
           </md-table-row>
           <md-table-row style="padding: 0px;margin: 0px;">
             <md-table-cell colspan=7>
-              Deploy Status:
-              <md-progress :md-progress="progress"></md-progress>
+              <md-chips v-model="contacts" md-input-placeholder="Add a contact">
+                <template scope="chip">{{ chip.value }}</template>
+              </md-chips>
+              <!-- <md-progress :md-progress="progress"></md-progress> -->
             </md-table-cell>
           </md-table-row>
       </md-table-body>
@@ -79,7 +81,8 @@ export default {
       nodes: [],
       edges: [],
       vms: [],
-      progress: 80
+      progress: 80,
+      contacts: ['Marcos Moura']
     }
   },
   computed: {
